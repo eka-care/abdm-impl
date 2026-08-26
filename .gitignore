@@ -9,6 +9,8 @@
 !.yarn/plugins
 !.yarn/releases
 !.yarn/versions
+/.idea
+/.claude
 
 # testing
 /coverage
@@ -35,6 +37,9 @@ yarn-error.log*
 
 # vercel
 .vercel
+
+# local sqlite data
+/data/
 
 # typescript
 *.tsbuildinfo

@@ -1,0 +1,151 @@
+{
+  "resourceType": "Bundle",
+  "id": "Bundle-mede-encounter-29e112e2-3806-4a13-927c-2652b67e7525",
+  "meta": {
+    "profile": [
+      "https://nrces.in/ndhm/fhir/r4/StructureDefinition/DocumentBundle"
+    ]
+  },
+  "type": "document",
+  "identifier": {
+    "system": "https://ace-remotely-crayfish.ngrok-free.app/abdm/care-context",
+    "value": "mede-encounter-29e112e2-3806-4a13-927c-2652b67e7525_1"
+  },
+  "timestamp": "2026-08-10T05:05:20.699Z",
+  "entry": [
+    {
+      "fullUrl": "urn:uuid:5ecb0144-15c9-4251-a134-69bb4497439f",
+      "resource": {
+        "resourceType": "Composition",
+        "id": "Composition-mede-encounter-29e112e2-3806",
+        "meta": {
+          "profile": [
+            "https://nrces.in/ndhm/fhir/r4/StructureDefinition/PrescriptionRecord"
+          ]
+        },
+        "text": {
+          "status": "generated",
+          "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">SPANDANA_PRESCRIPTION 10-8-2026</div>"
+        },
+        "status": "final",
+        "type": {
+          "coding": [
+            {
+              "system": "http://snomed.info/sct",
+              "code": "440545006",
+              "display": "Prescription record"
+            }
+          ],
+          "text": "Prescription"
+        },
+        "subject": {
+          "reference": "urn:uuid:9fe3e65d-dbd3-48fd-bc5c-49cf55c72a16"
+        },
+        "date": "2026-08-10T05:04:21.000Z",
+        "author": [
+          {
+            "reference": "urn:uuid:2d5ef932-0d96-4b6c-83d8-19ac512acdfb"
+          }
+        ],
+        "title": "SPANDANA_PRESCRIPTION 10-8-2026",
+        "section": [
+          {
+            "title": "Prescription",
+            "code": {
+              "coding": [
+                {
+                  "system": "http://snomed.info/sct",
+                  "code": "440545006",
+                  "display": "Prescription record"
+                }
+              ]
+            },
+            "entry": [
+              {
+                "reference": "urn:uuid:d2e59329-8607-4555-851b-c2f677b8634c"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:9fe3e65d-dbd3-48fd-bc5c-49cf55c72a16",
+      "resource": {
+        "resourceType": "Patient",
+        "id": "4d96e074-378a-4113-ad8a-241ef1e7dd76-864ff6a0-b235-4ca6-a809-32b",
+        "text": {
+          "status": "generated",
+          "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Manyam Siva Krishna Sandeep</div>"
+        },
+        "name": [
+          {
+            "text": "Manyam Siva Krishna Sandeep"
+          }
+        ],
+        "gender": "male",
+        "birthDate": "1994-07-20",
+        "telecom": [
+          {
+            "system": "phone",
+            "value": "7893666676"
+          }
+        ]
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:2d5ef932-0d96-4b6c-83d8-19ac512acdfb",
+      "resource": {
+        "resourceType": "Organization",
+        "id": "Organization-IN3610024527",
+        "text": {
+          "status": "generated",
+          "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Orissa DD3</div>"
+        },
+        "identifier": [
+          {
+            "system": "https://facility.ndhm.gov.in",
+            "value": "IN3610024527"
+          }
+        ],
+        "name": "Orissa DD3"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:d2e59329-8607-4555-851b-c2f677b8634c",
+      "resource": {
+        "resourceType": "DocumentReference",
+        "id": "DocumentReference-d2e59329-8607-4555-851",
+        "text": {
+          "status": "generated",
+          "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">SPANDANA_PRESCRIPTION 10-8-2026</div>"
+        },
+        "status": "current",
+        "type": {
+          "coding": [
+            {
+              "system": "http://snomed.info/sct",
+              "code": "440545006",
+              "display": "Prescription record"
+            }
+          ]
+        },
+        "subject": {
+          "reference": "urn:uuid:9fe3e65d-dbd3-48fd-bc5c-49cf55c72a16"
+        },
+        "content": [
+          {
+            "attachment": {
+              "contentType": "application/pdf",
+              "title": "SPANDANA_PRESCRIPTION 10-8-2026",
+              "creation": "2026-08-10T05:05:07.000Z",
+              "url": "https://prints.play.medeintegra.app/api/reports/report-849880c5-18da-4045-8e5a-9a088f3c736a",
+              "size": 124657,
+              "hash": "faxUil3zhkT3cSe2Ar2eJMCSefIkGl721P1kvpCAaSA="
+            }
+          }
+        ]
+      }
+    }
+  ]
+}
