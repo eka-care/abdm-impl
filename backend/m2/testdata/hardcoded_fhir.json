@@ -1,68 +1,52 @@
 {
   "resourceType": "Bundle",
-  "id": "Bundle-mede-encounter-29e112e2-3806-4a13-927c-2652b67e7525",
-  "meta": {
-    "profile": [
-      "https://nrces.in/ndhm/fhir/r4/StructureDefinition/DocumentBundle"
-    ]
+  "id": "Bundle-6a577523918f5dbdca136c9c-1",
+  "identifier": {
+    "system": "https://www.flabs.in/abdm/care-context",
+    "value": "6a577523918f5dbdca136c9c_1"
   },
   "type": "document",
-  "identifier": {
-    "system": "https://ace-remotely-crayfish.ngrok-free.app/abdm/care-context",
-    "value": "mede-encounter-29e112e2-3806-4a13-927c-2652b67e7525_1"
-  },
-  "timestamp": "2026-08-10T05:05:20.699Z",
+  "timestamp": "2026-07-15T11:55:15.375Z",
   "entry": [
     {
-      "fullUrl": "urn:uuid:5ecb0144-15c9-4251-a134-69bb4497439f",
+      "fullUrl": "urn:uuid:8c51fdb5-568c-45a7-9394-00556605aeed",
       "resource": {
         "resourceType": "Composition",
-        "id": "Composition-mede-encounter-29e112e2-3806",
-        "meta": {
-          "profile": [
-            "https://nrces.in/ndhm/fhir/r4/StructureDefinition/PrescriptionRecord"
-          ]
-        },
+        "id": "Composition-6a577523918f5dbdca136c9c-1",
         "text": {
           "status": "generated",
-          "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">SPANDANA_PRESCRIPTION 10-8-2026</div>"
+          "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Flabs Lab Report 15-7-2026</div>"
         },
         "status": "final",
         "type": {
           "coding": [
             {
               "system": "http://snomed.info/sct",
-              "code": "440545006",
-              "display": "Prescription record"
+              "code": "721981007",
+              "display": "Diagnostic studies report"
             }
           ],
-          "text": "Prescription"
+          "text": "Diagnostic Report"
         },
         "subject": {
-          "reference": "urn:uuid:9fe3e65d-dbd3-48fd-bc5c-49cf55c72a16"
+          "reference": "urn:uuid:895d2459-b41b-41ca-b89b-057823196420"
         },
-        "date": "2026-08-10T05:04:21.000Z",
+        "date": "2026-07-15T11:55:15.375Z",
         "author": [
           {
-            "reference": "urn:uuid:2d5ef932-0d96-4b6c-83d8-19ac512acdfb"
+            "reference": "urn:uuid:bf15458f-3068-4e55-bcf2-3c8d5791f0c4"
           }
         ],
-        "title": "SPANDANA_PRESCRIPTION 10-8-2026",
+        "title": "Flabs Lab Report 15-7-2026",
         "section": [
           {
-            "title": "Prescription",
-            "code": {
-              "coding": [
-                {
-                  "system": "http://snomed.info/sct",
-                  "code": "440545006",
-                  "display": "Prescription record"
-                }
-              ]
-            },
+            "title": "Diagnostic Report",
             "entry": [
               {
-                "reference": "urn:uuid:d2e59329-8607-4555-851b-c2f677b8634c"
+                "reference": "urn:uuid:75b562b9-de24-4f58-bbb1-b919727b3675"
+              },
+              {
+                "reference": "urn:uuid:8b6f72ac-d390-4089-8e2c-0433e52af554"
               }
             ]
           }
@@ -70,78 +54,120 @@
       }
     },
     {
-      "fullUrl": "urn:uuid:9fe3e65d-dbd3-48fd-bc5c-49cf55c72a16",
+      "fullUrl": "urn:uuid:895d2459-b41b-41ca-b89b-057823196420",
       "resource": {
         "resourceType": "Patient",
-        "id": "4d96e074-378a-4113-ad8a-241ef1e7dd76-864ff6a0-b235-4ca6-a809-32b",
+        "id": "Patient-6a577523918f5dbdca136c9c-1",
         "text": {
           "status": "generated",
-          "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Manyam Siva Krishna Sandeep</div>"
+          "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Tanmay Pandey</div>"
         },
         "name": [
           {
-            "text": "Manyam Siva Krishna Sandeep"
+            "text": "Tanmay Pandey"
           }
         ],
-        "gender": "male",
-        "birthDate": "1994-07-20",
+        "gender": "female",
+        "birthDate": "2004-06-18",
         "telecom": [
           {
             "system": "phone",
-            "value": "7893666676"
+            "value": "8864893203"
           }
         ]
       }
     },
     {
-      "fullUrl": "urn:uuid:2d5ef932-0d96-4b6c-83d8-19ac512acdfb",
+      "fullUrl": "urn:uuid:bf15458f-3068-4e55-bcf2-3c8d5791f0c4",
       "resource": {
         "resourceType": "Organization",
-        "id": "Organization-IN3610024527",
+        "id": "Organization-IN0911629287",
         "text": {
           "status": "generated",
-          "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Orissa DD3</div>"
+          "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Dhwaj Gupta Lab - Haryana</div>"
         },
+        "name": "Dhwaj Gupta Lab - Haryana",
         "identifier": [
           {
             "system": "https://facility.ndhm.gov.in",
-            "value": "IN3610024527"
+            "value": "IN0911629287"
           }
-        ],
-        "name": "Orissa DD3"
+        ]
       }
     },
     {
-      "fullUrl": "urn:uuid:d2e59329-8607-4555-851b-c2f677b8634c",
+      "fullUrl": "urn:uuid:75b562b9-de24-4f58-bbb1-b919727b3675",
       "resource": {
-        "resourceType": "DocumentReference",
-        "id": "DocumentReference-d2e59329-8607-4555-851",
+        "resourceType": "DiagnosticReport",
+        "id": "DiagnosticReport-6a577523918f5dbdca136c9c-1",
         "text": {
           "status": "generated",
-          "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">SPANDANA_PRESCRIPTION 10-8-2026</div>"
+          "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Flabs Lab Report 15-7-2026</div>"
+        },
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "system": "http://snomed.info/sct",
+              "code": "4241000179101",
+              "display": "Laboratory report"
+            }
+          ],
+          "text": "Flabs Lab Report 15-7-2026"
+        },
+        "subject": {
+          "reference": "urn:uuid:895d2459-b41b-41ca-b89b-057823196420"
+        },
+        "issued": "2026-07-15T11:55:15.375Z",
+        "effectiveDateTime": "2026-07-15T11:55:15.375Z",
+        "performer": [
+          {
+            "reference": "urn:uuid:bf15458f-3068-4e55-bcf2-3c8d5791f0c4"
+          }
+        ],
+        "presentedForm": [
+          {
+            "contentType": "application/pdf",
+            "title": "Flabs Lab Report 15-7-2026",
+            "creation": "2026-07-15T11:55:15.375Z",
+            "url": "https://flabs-lab.s3.ap-south-1.amazonaws.com/report/6a577523918f5dbdca136c9c.pdf",
+            "size": 3619875,
+            "hash": "HWn/JZqBQanS5pP5jEFYUICuIDk="
+          }
+        ]
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:8b6f72ac-d390-4089-8e2c-0433e52af554",
+      "resource": {
+        "resourceType": "DocumentReference",
+        "id": "DocumentReference-6a577523918f5dbdca136c9c-1",
+        "text": {
+          "status": "generated",
+          "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Flabs Lab Report 15-7-2026</div>"
         },
         "status": "current",
         "type": {
           "coding": [
             {
               "system": "http://snomed.info/sct",
-              "code": "440545006",
-              "display": "Prescription record"
+              "code": "4241000179101",
+              "display": "Laboratory report"
             }
           ]
         },
         "subject": {
-          "reference": "urn:uuid:9fe3e65d-dbd3-48fd-bc5c-49cf55c72a16"
+          "reference": "urn:uuid:895d2459-b41b-41ca-b89b-057823196420"
         },
         "content": [
           {
             "attachment": {
               "contentType": "application/pdf",
-              "title": "SPANDANA_PRESCRIPTION 10-8-2026",
-              "creation": "2026-08-10T05:05:07.000Z",
-              "url": "https://prints.play.medeintegra.app/api/reports/report-849880c5-18da-4045-8e5a-9a088f3c736a",
-              "size": 124657,
-              "hash": "faxUil3zhkT3cSe2Ar2eJMCSefIkGl721P1kvpCAaSA="
+              "title": "Flabs Lab Report 15-7-2026",
+              "creation": "2026-07-15T11:55:15.375Z",
+              "url": "https://flabs-lab.s3.ap-south-1.amazonaws.com/report/6a577523918f5dbdca136c9c.pdf",
+              "size": 3619875,
+              "hash": "HWn/JZqBQanS5pP5jEFYUICuIDk="
             }
           }
         ]

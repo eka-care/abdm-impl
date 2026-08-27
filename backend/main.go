@@ -12,8 +12,20 @@ import (
 )
 
 func main() {
-	// Load ../.env.local (Next.js convention); ignore error if file absent
-	_ = godotenv.Load("../.env.local")
+	// Load ../.env.local (Next.js convention). Path is CWD-relative, so this only
+	// resolves when the binary runs from backend/ — say so instead of silently
+	// starting with an empty environment.
+	if err := godotenv.Load("../.env.local"); err != nil {
+		log.Printf("no ../.env.local loaded (%v) — relying on the ambient environment", err)
+	}
+
+	// X-Hip-Id goes out on every ABDM call; an empty or unregistered one comes back
+	// from Eka as "HFR not found", which reads like a gateway problem but is config.
+	hipID := os.Getenv("EKA_HIP_ID")
+	if hipID == "" {
+		log.Fatal("EKA_HIP_ID is required — set it to the HFR ID onboarded to your Eka account")
+	}
+	log.Printf("HIP: %s (%s)", hipID, os.Getenv("EKA_HIP_NAME"))
 
 	if err := db.Init(); err != nil {
 		log.Fatalf("db init: %v", err)

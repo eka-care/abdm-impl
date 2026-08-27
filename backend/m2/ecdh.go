@@ -6,6 +6,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"io"
+	"log"
 	"net/http"
 	"time"
 
@@ -13,9 +14,9 @@ import (
 )
 
 type hiuKeyInfo struct {
-	CryptoAlg  string     `json:"crypto_alg"`
-	Curve      string     `json:"curve"`
-	Nonce      string     `json:"nonce"`
+	CryptoAlg   string      `json:"crypto_alg"`
+	Curve       string      `json:"curve"`
+	Nonce       string      `json:"nonce"`
 	DHPublicKey dhPublicKey `json:"dh_public_key"`
 }
 
@@ -33,10 +34,10 @@ type dataFetchEntry struct {
 }
 
 type dataFetchRequest struct {
-	TransactionID  string         `json:"transaction_id"`
-	PageNumber     int            `json:"page_number"`
-	PageCount      int            `json:"page_count"`
-	KeyInformation hiuKeyInfo     `json:"key_information"`
+	TransactionID  string           `json:"transaction_id"`
+	PageNumber     int              `json:"page_number"`
+	PageCount      int              `json:"page_count"`
+	KeyInformation hiuKeyInfo       `json:"key_information"`
 	Entries        []dataFetchEntry `json:"entries"`
 }
 
@@ -53,8 +54,13 @@ func encryptAndPush(transactionID, oid, partnerPtID, hipID, abhaAddress string, 
 	for _, ccID := range careContextIDs {
 		fhir, err := FHIRForCareContext(abhaAddress, ccID)
 		if err != nil {
-			return fmt.Errorf("build fhir bundle for %s: %w", ccID, err)
+			// Skip, as care_abdm does: one care context with no renderable record
+			// must not sink the transfer for the others in the same request.
+			log.Printf("data-on-fetch: skipping care context %s: %v", ccID, err)
+			continue
 		}
+
+		dumpFHIR(ccID, "on-fetch", fhir)
 
 		encrypted, err := ec.Encrypt(abdmecdh.EncryptionRequest{
 			StringToEncrypt:    fhir,
@@ -72,7 +78,7 @@ func encryptAndPush(transactionID, oid, partnerPtID, hipID, abhaAddress string, 
 			CareContextID: ccID,
 			Content:       encrypted.EncryptedData,
 			Checksum:      fmt.Sprintf("%x", sum),
-			Media:         "application/fhir+json",
+			Media:         FHIRMediaType,
 		})
 	}
 
@@ -106,7 +112,7 @@ func encryptAndPush(transactionID, oid, partnerPtID, hipID, abhaAddress string, 
 	req.Header.Set("X-Partner-Pt-Id", partnerPtID)
 	req.Header.Set("X-Hip-Id", hipID)
 
-	resp, err := http.DefaultClient.Do(req)
+	resp, err := httpClient.Do(req)
 	if err != nil {
 		return fmt.Errorf("data-on-fetch push: %w", err)
 	}

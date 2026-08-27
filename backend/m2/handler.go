@@ -75,6 +75,18 @@ func HandleLink(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, "oid, abha_address, care_contexts required", http.StatusBadRequest)
 		return
 	}
+	// Rows first: the abha.link_care_context webhook can land before this handler
+	// returns, and its UPDATE is a no-op if the row is not there yet.
+	for _, cc := range req.CareContexts {
+		if _, err := db.DB.Exec(`INSERT OR IGNORE INTO care_context_links
+			(care_context_id, abha_address, hi_type, display, status)
+			VALUES (?, ?, ?, ?, 'PENDING')`,
+			cc.CareContextID, req.AbhaAddress, cc.HiType, cc.Display); err != nil {
+			log.Printf("link: record care context %s: %v", cc.CareContextID, err)
+			http.Error(w, "link failed", http.StatusInternalServerError)
+			return
+		}
+	}
 	hipID := os.Getenv("EKA_HIP_ID")
 	if err := LinkCareContexts(req.Oid, req.PartnerPtID, hipID, LinkRequest{
 		AbhaAddress:   req.AbhaAddress,
@@ -85,12 +97,6 @@ func HandleLink(w http.ResponseWriter, r *http.Request) {
 		log.Printf("link error: %v", err)
 		http.Error(w, "link failed", http.StatusBadGateway)
 		return
-	}
-	for _, cc := range req.CareContexts {
-		db.DB.Exec(`INSERT OR IGNORE INTO care_context_links
-			(care_context_id, abha_address, hi_type, display, status)
-			VALUES (?, ?, ?, ?, 'PENDING')`,
-			cc.CareContextID, req.AbhaAddress, cc.HiType, cc.Display)
 	}
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(http.StatusAccepted)
@@ -105,6 +111,7 @@ func HandleLinkDocument(w http.ResponseWriter, r *http.Request) {
 		AbhaAddress string `json:"abha_address"`
 		FileName    string `json:"file_name"`
 		MimeType    string `json:"mime_type"`
+		HiType      string `json:"hi_type"` // defaults to HealthDocumentRecord
 		Content     string `json:"content"` // base64-encoded file bytes
 	}
 	if err := json.NewDecoder(r.Body).Decode(&req); err != nil {
@@ -120,7 +127,33 @@ func HandleLinkDocument(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, "content must be base64", http.StatusBadRequest)
 		return
 	}
-	ccID, err := StoreAndLink(req.Oid, req.PartnerPtID, req.AbhaAddress, req.FileName, req.MimeType, raw)
+	// A bundle sent as application/fhir+json is forwarded verbatim, so check here
+	// that it is at least a FHIR document Bundle — a malformed one is far cheaper to
+	// reject now than to debug as a silent no-show in the PHR app.
+	if req.MimeType == FHIRMediaType {
+		var bundle struct {
+			ResourceType string `json:"resourceType"`
+			Type         string `json:"type"`
+		}
+		if err := json.Unmarshal(raw, &bundle); err != nil {
+			http.Error(w, "content is not valid JSON: "+err.Error(), http.StatusBadRequest)
+			return
+		}
+		if bundle.ResourceType != "Bundle" || bundle.Type != "document" {
+			http.Error(w, fmt.Sprintf("expected a FHIR document Bundle, got resourceType=%q type=%q",
+				bundle.ResourceType, bundle.Type), http.StatusBadRequest)
+			return
+		}
+		if req.HiType == "" {
+			http.Error(w, "hi_type is required when supplying a FHIR bundle", http.StatusBadRequest)
+			return
+		}
+		if _, ok := hiTypes[req.HiType]; !ok {
+			http.Error(w, "unknown hi_type "+req.HiType, http.StatusBadRequest)
+			return
+		}
+	}
+	ccID, err := StoreAndLink(req.Oid, req.PartnerPtID, req.AbhaAddress, req.FileName, req.MimeType, req.HiType, raw)
 	if err != nil {
 		log.Printf("link-document error: %v", err)
 		http.Error(w, "link failed", http.StatusBadGateway)
@@ -281,4 +314,3 @@ func onDiscover(w http.ResponseWriter, data json.RawMessage) {
 	log.Printf("[webhook] discover (not yet implemented): %s", data)
 	w.WriteHeader(http.StatusOK)
 }
-
