@@ -1,177 +1,399 @@
 {
-  "resourceType": "Bundle",
-  "id": "Bundle-6a577523918f5dbdca136c9c-1",
-  "identifier": {
-    "system": "https://www.flabs.in/abdm/care-context",
-    "value": "6a577523918f5dbdca136c9c_1"
-  },
-  "type": "document",
-  "timestamp": "2026-07-15T11:55:15.375Z",
   "entry": [
     {
-      "fullUrl": "urn:uuid:8c51fdb5-568c-45a7-9394-00556605aeed",
+      "request": {
+        "method": "PUT",
+        "url": "Condition/3ee69577-bc1c-40eb-b044-62d28ff7722e"
+      },
       "resource": {
-        "resourceType": "Composition",
-        "id": "Composition-6a577523918f5dbdca136c9c-1",
-        "text": {
-          "status": "generated",
-          "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Flabs Lab Report 15-7-2026</div>"
-        },
-        "status": "final",
-        "type": {
-          "coding": [
-            {
-              "system": "http://snomed.info/sct",
-              "code": "721981007",
-              "display": "Diagnostic studies report"
-            }
-          ],
-          "text": "Diagnostic Report"
-        },
-        "subject": {
-          "reference": "urn:uuid:895d2459-b41b-41ca-b89b-057823196420"
-        },
-        "date": "2026-07-15T11:55:15.375Z",
-        "author": [
+        "resourceType": "Condition",
+        "id": "3ee69577-bc1c-40eb-b044-62d28ff7722e",
+        "extension": [
           {
-            "reference": "urn:uuid:bf15458f-3068-4e55-bcf2-3c8d5791f0c4"
+            "url": "https://www.eka.care/care_context_id",
+            "valueString": "6-281082-mucksdmk-op"
           }
         ],
-        "title": "Flabs Lab Report 15-7-2026",
-        "section": [
+        "asserter": {
+          "display": "Dr. Vishvas Kulkarni ",
+          "reference": "Practitioner/"
+        },
+        "category": [
           {
-            "title": "Diagnostic Report",
-            "entry": [
+            "coding": [
               {
-                "reference": "urn:uuid:75b562b9-de24-4f58-bbb1-b919727b3675"
-              },
-              {
-                "reference": "urn:uuid:8b6f72ac-d390-4089-8e2c-0433e52af554"
+                "code": "encounter-diagnosis",
+                "display": "Encounter Diagnosis",
+                "system": "http://terminology.hl7.org/CodeSystem/condition-category"
               }
             ]
           }
-        ]
-      }
-    },
-    {
-      "fullUrl": "urn:uuid:895d2459-b41b-41ca-b89b-057823196420",
-      "resource": {
-        "resourceType": "Patient",
-        "id": "Patient-6a577523918f5dbdca136c9c-1",
-        "text": {
-          "status": "generated",
-          "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Tanmay Pandey</div>"
-        },
-        "name": [
-          {
-            "text": "Tanmay Pandey"
-          }
         ],
-        "gender": "female",
-        "birthDate": "2004-06-18",
-        "telecom": [
-          {
-            "system": "phone",
-            "value": "8864893203"
-          }
-        ]
-      }
-    },
-    {
-      "fullUrl": "urn:uuid:bf15458f-3068-4e55-bcf2-3c8d5791f0c4",
-      "resource": {
-        "resourceType": "Organization",
-        "id": "Organization-IN0911629287",
-        "text": {
-          "status": "generated",
-          "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Dhwaj Gupta Lab - Haryana</div>"
-        },
-        "name": "Dhwaj Gupta Lab - Haryana",
-        "identifier": [
-          {
-            "system": "https://facility.ndhm.gov.in",
-            "value": "IN0911629287"
-          }
-        ]
-      }
-    },
-    {
-      "fullUrl": "urn:uuid:75b562b9-de24-4f58-bbb1-b919727b3675",
-      "resource": {
-        "resourceType": "DiagnosticReport",
-        "id": "DiagnosticReport-6a577523918f5dbdca136c9c-1",
-        "text": {
-          "status": "generated",
-          "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Flabs Lab Report 15-7-2026</div>"
-        },
-        "status": "final",
-        "code": {
+        "clinicalStatus": {
           "coding": [
             {
-              "system": "http://snomed.info/sct",
-              "code": "4241000179101",
-              "display": "Laboratory report"
-            }
-          ],
-          "text": "Flabs Lab Report 15-7-2026"
-        },
-        "subject": {
-          "reference": "urn:uuid:895d2459-b41b-41ca-b89b-057823196420"
-        },
-        "issued": "2026-07-15T11:55:15.375Z",
-        "effectiveDateTime": "2026-07-15T11:55:15.375Z",
-        "performer": [
-          {
-            "reference": "urn:uuid:bf15458f-3068-4e55-bcf2-3c8d5791f0c4"
-          }
-        ],
-        "presentedForm": [
-          {
-            "contentType": "application/pdf",
-            "title": "Flabs Lab Report 15-7-2026",
-            "creation": "2026-07-15T11:55:15.375Z",
-            "url": "https://flabs-lab.s3.ap-south-1.amazonaws.com/report/6a577523918f5dbdca136c9c.pdf",
-            "size": 3619875,
-            "hash": "HWn/JZqBQanS5pP5jEFYUICuIDk="
-          }
-        ]
-      }
-    },
-    {
-      "fullUrl": "urn:uuid:8b6f72ac-d390-4089-8e2c-0433e52af554",
-      "resource": {
-        "resourceType": "DocumentReference",
-        "id": "DocumentReference-6a577523918f5dbdca136c9c-1",
-        "text": {
-          "status": "generated",
-          "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Flabs Lab Report 15-7-2026</div>"
-        },
-        "status": "current",
-        "type": {
-          "coding": [
-            {
-              "system": "http://snomed.info/sct",
-              "code": "4241000179101",
-              "display": "Laboratory report"
+              "code": "active",
+              "display": "active",
+              "system": "http://terminology.hl7.org/CodeSystem/condition-clinical"
             }
           ]
         },
-        "subject": {
-          "reference": "urn:uuid:895d2459-b41b-41ca-b89b-057823196420"
+        "code": {
+          "text": "Final Diagnosis\r\nLorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. "
         },
-        "content": [
-          {
-            "attachment": {
-              "contentType": "application/pdf",
-              "title": "Flabs Lab Report 15-7-2026",
-              "creation": "2026-07-15T11:55:15.375Z",
-              "url": "https://flabs-lab.s3.ap-south-1.amazonaws.com/report/6a577523918f5dbdca136c9c.pdf",
-              "size": 3619875,
-              "hash": "HWn/JZqBQanS5pP5jEFYUICuIDk="
+        "recordedDate": "2026-09-21T20:10:00.000Z",
+        "subject": {
+          "display": "Mr. Shubham 01 Uday 0101 Patil 010101",
+          "reference": "Patient/6-121822092026"
+        },
+        "verificationStatus": {
+          "coding": [
+            {
+              "code": "confirmed",
+              "display": "confirmed",
+              "system": "http://terminology.hl7.org/CodeSystem/condition-clinical"
             }
+          ]
+        }
+      }
+    },
+    {
+      "request": {
+        "method": "PUT",
+        "url": "Observation/5144d35a-5756-4703-997d-95a6cc575bb1"
+      },
+      "resource": {
+        "resourceType": "Observation",
+        "id": "5144d35a-5756-4703-997d-95a6cc575bb1",
+        "extension": [
+          {
+            "url": "https://www.eka.care/care_context_id",
+            "valueString": "6-281082-mucksdmk-op"
           }
-        ]
+        ],
+        "category": [
+          {
+            "coding": [
+              {
+                "code": "exam",
+                "display": "exam",
+                "system": "https://www.custom.code"
+              }
+            ]
+          }
+        ],
+        "code": {
+          "text": "GF \r\nLorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. "
+        },
+        "performer": [
+          {
+            "display": "Dr. Vishvas Kulkarni ",
+            "reference": "Practitioner/"
+          }
+        ],
+        "status": "final",
+        "subject": {
+          "display": "Mr. Shubham 01 Uday 0101 Patil 010101",
+          "reference": "Patient/6-121822092026"
+        }
+      }
+    },
+    {
+      "request": {
+        "method": "PUT",
+        "url": "Observation/f61e8e6a-6f24-4375-be52-9bfad2dcd018"
+      },
+      "resource": {
+        "resourceType": "Observation",
+        "id": "f61e8e6a-6f24-4375-be52-9bfad2dcd018",
+        "extension": [
+          {
+            "url": "https://www.eka.care/care_context_id",
+            "valueString": "6-281082-mucksdmk-op"
+          }
+        ],
+        "category": [
+          {
+            "coding": [
+              {
+                "code": "exam",
+                "display": "exam",
+                "system": "https://www.custom.code"
+              }
+            ]
+          }
+        ],
+        "code": {
+          "text": "PA\r\nLorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. "
+        },
+        "note": [
+          {
+            "text": "P/A findings"
+          }
+        ],
+        "performer": [
+          {
+            "display": "Dr. Vishvas Kulkarni ",
+            "reference": "Practitioner/"
+          }
+        ],
+        "status": "final",
+        "subject": {
+          "display": "Mr. Shubham 01 Uday 0101 Patil 010101",
+          "reference": "Patient/6-121822092026"
+        }
+      }
+    },
+    {
+      "request": {
+        "method": "PUT",
+        "url": "Observation/077ff38e-089d-44c2-83d2-4d6485b84805"
+      },
+      "resource": {
+        "resourceType": "Observation",
+        "id": "077ff38e-089d-44c2-83d2-4d6485b84805",
+        "extension": [
+          {
+            "url": "https://www.eka.care/care_context_id",
+            "valueString": "6-281082-mucksdmk-op"
+          }
+        ],
+        "category": [
+          {
+            "coding": [
+              {
+                "code": "exam",
+                "display": "exam",
+                "system": "https://www.custom.code"
+              }
+            ]
+          }
+        ],
+        "code": {
+          "text": "PR\r\nLorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. "
+        },
+        "note": [
+          {
+            "text": "P/R findings"
+          }
+        ],
+        "performer": [
+          {
+            "display": "Dr. Vishvas Kulkarni ",
+            "reference": "Practitioner/"
+          }
+        ],
+        "status": "final",
+        "subject": {
+          "display": "Mr. Shubham 01 Uday 0101 Patil 010101",
+          "reference": "Patient/6-121822092026"
+        }
+      }
+    },
+    {
+      "request": {
+        "method": "PUT",
+        "url": "Observation/8703ab80-caa3-4be5-88fc-d970b2f9fc29"
+      },
+      "resource": {
+        "resourceType": "Observation",
+        "id": "8703ab80-caa3-4be5-88fc-d970b2f9fc29",
+        "extension": [
+          {
+            "url": "https://www.eka.care/care_context_id",
+            "valueString": "6-281082-mucksdmk-op"
+          }
+        ],
+        "category": [
+          {
+            "coding": [
+              {
+                "code": "exam",
+                "display": "exam",
+                "system": "https://www.custom.code"
+              }
+            ]
+          }
+        ],
+        "code": {
+          "text": "EGF\r\nLorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. "
+        },
+        "note": [
+          {
+            "text": "P/V findings"
+          }
+        ],
+        "performer": [
+          {
+            "display": "Dr. Vishvas Kulkarni ",
+            "reference": "Practitioner/"
+          }
+        ],
+        "status": "final",
+        "subject": {
+          "display": "Mr. Shubham 01 Uday 0101 Patil 010101",
+          "reference": "Patient/6-121822092026"
+        }
+      }
+    },
+    {
+      "request": {
+        "method": "PUT",
+        "url": "CarePlan/f1ece3b8-14ec-4daa-8fe3-4e077a9b3434"
+      },
+      "resource": {
+        "resourceType": "CarePlan",
+        "id": "f1ece3b8-14ec-4daa-8fe3-4e077a9b3434",
+        "extension": [
+          {
+            "url": "https://www.eka.care/care_context_id",
+            "valueString": "6-281082-mucksdmk-op"
+          }
+        ],
+        "author": {
+          "display": "Dr. Vishvas Kulkarni ",
+          "reference": "Practitioner/"
+        },
+        "category": [
+          {
+            "coding": [
+              {
+                "code": "386464006",
+                "display": "Medical advice",
+                "system": "http://snomed.info/sct"
+              }
+            ]
+          }
+        ],
+        "created": "2026-09-21T20:10:00.000Z",
+        "description": "POC\r\nLorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. ",
+        "intent": "plan",
+        "status": "active",
+        "subject": {
+          "display": "Mr. Shubham 01 Uday 0101 Patil 010101",
+          "reference": "Patient/6-121822092026"
+        }
+      }
+    },
+    {
+      "request": {
+        "method": "PUT",
+        "url": "CarePlan/29d3c355-7ec9-4e01-99c3-2ec9e972f5af"
+      },
+      "resource": {
+        "resourceType": "CarePlan",
+        "id": "29d3c355-7ec9-4e01-99c3-2ec9e972f5af",
+        "extension": [
+          {
+            "url": "https://www.eka.care/care_context_id",
+            "valueString": "6-281082-mucksdmk-op"
+          }
+        ],
+        "author": {
+          "display": "Dr. Vishvas Kulkarni ",
+          "reference": "Practitioner/"
+        },
+        "category": [
+          {
+            "coding": [
+              {
+                "code": "386464006",
+                "display": "Medical advice",
+                "system": "http://snomed.info/sct"
+              }
+            ]
+          }
+        ],
+        "created": "2026-09-21T20:10:00.000Z",
+        "description": "Advise\r\nLorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. ",
+        "intent": "plan",
+        "status": "active",
+        "subject": {
+          "display": "Mr. Shubham 01 Uday 0101 Patil 010101",
+          "reference": "Patient/6-121822092026"
+        }
+      }
+    },
+    {
+      "request": {
+        "method": "POST",
+        "url": "Composition"
+      },
+      "resource": {
+        "extension": [
+          {
+            "url": "https://www.eka.care/care_context_id",
+            "valueString": "6-281082-mucksdmk-op"
+          }
+        ],
+        "author": [
+          {
+            "display": "Dr. Vishvas Kulkarni ",
+            "reference": "Practitioner/"
+          }
+        ],
+        "date": "2026-09-21T20:10:00.000Z",
+        "identifier": {
+          "system": "https://www.eka.care",
+          "value": "6-281082-mucksdmk-op"
+        },
+        "section": [
+          {
+            "entry": [
+              {
+                "reference": "Condition/3ee69577-bc1c-40eb-b044-62d28ff7722e"
+              }
+            ],
+            "title": "Condition"
+          },
+          {
+            "entry": [
+              {
+                "reference": "Observation/5144d35a-5756-4703-997d-95a6cc575bb1"
+              },
+              {
+                "reference": "Observation/f61e8e6a-6f24-4375-be52-9bfad2dcd018"
+              },
+              {
+                "reference": "Observation/077ff38e-089d-44c2-83d2-4d6485b84805"
+              },
+              {
+                "reference": "Observation/8703ab80-caa3-4be5-88fc-d970b2f9fc29"
+              }
+            ],
+            "title": "Observation"
+          },
+          {
+            "entry": [
+              {
+                "reference": "CarePlan/f1ece3b8-14ec-4daa-8fe3-4e077a9b3434"
+              },
+              {
+                "reference": "CarePlan/29d3c355-7ec9-4e01-99c3-2ec9e972f5af"
+              }
+            ],
+            "title": "CarePlan"
+          }
+        ],
+        "status": "preliminary",
+        "subject": {
+          "display": "Mr. Shubham 01 Uday 0101 Patil 010101",
+          "reference": "Patient/6-121822092026"
+        },
+        "title": "OPD Consultation",
+        "type": {
+          "coding": [
+            {
+              "code": "371530004",
+              "display": "Clinical note",
+              "system": "http://snomed.info/sct"
+            }
+          ]
+        },
+        "resourceType": "Composition"
       }
     }
-  ]
+  ],
+  "type": "batch",
+  "resourceType": "Bundle"
 }

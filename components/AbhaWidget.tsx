@@ -53,8 +53,10 @@ declare global {
   }
 }
 
-const SDK_JS = "https://unpkg.com/@eka-care/abha/dist/sdk/abha/js/abha.js";
-const SDK_CSS = "https://unpkg.com/@eka-care/abha/dist/sdk/abha/css/abha.css";
+// @eka-care/abha hardcodes the prod env; @eka-care/abha-stg is Eka's sandbox build (api.dev.eka.care).
+const SDK_BASE = `https://unpkg.com/@eka-care/${process.env.NEXT_PUBLIC_EKA_SDK_ENV === "sandbox" ? "abha-stg" : "abha"}/dist/sdk/abha`;
+const SDK_JS = `${SDK_BASE}/js/abha.js`;
+const SDK_CSS = `${SDK_BASE}/css/abha.css`;
 const CONTAINER_ID = "eka-abha-sdk";
 
 function loadSdkAssets(): Promise<void> {

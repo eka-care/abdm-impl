@@ -2,22 +2,50 @@ package m3
 
 import (
 	"bytes"
+	"encoding/base64"
 	"encoding/json"
 	"fmt"
 	"io"
 	"log"
 	"net/http"
 	"os"
+	"strings"
 	"sync"
 	"time"
 )
 
-var base = func() string {
+// Read at call time: package vars initialise before main() loads ../.env.local.
+func base() string {
 	if u := os.Getenv("EKA_BASE_URL"); u != "" {
 		return u
 	}
 	return "https://api.eka.care"
-}()
+}
+
+// NdhmURL is where /abdm/* calls go: Eka's API gateway by default, or a locally running ndhm
+// when NDHM_BASE_URL is set (login still goes to EKA_BASE_URL).
+func NdhmURL() string {
+	if u := os.Getenv("NDHM_BASE_URL"); u != "" {
+		return u
+	}
+	return base()
+}
+
+// SetAuth adds the bearer token. When calling ndhm directly there is no gateway to turn the
+// token into the jwt-payload header ndhm authenticates with, so add that too.
+func SetAuth(r *http.Request, token string) {
+	r.Header.Set("Authorization", "Bearer "+token)
+	if os.Getenv("NDHM_BASE_URL") == "" {
+		return
+	}
+	parts := strings.Split(token, ".")
+	if len(parts) != 3 {
+		return
+	}
+	if claims, err := base64.RawURLEncoding.DecodeString(parts[1]); err == nil {
+		r.Header.Set("jwt-payload", string(claims))
+	}
+}
 
 var (
 	mu          sync.Mutex
@@ -35,7 +63,7 @@ func getToken() (string, error) {
 		"client_id":     os.Getenv("NEXT_PUBLIC_EKA_CLIENT_ID"),
 		"client_secret": os.Getenv("EKA_CLIENT_SECRET"),
 	})
-	resp, err := http.Post(base+"/connect-auth/v1/account/login", "application/json", bytes.NewReader(body))
+	resp, err := http.Post(base()+"/connect-auth/v1/account/login", "application/json", bytes.NewReader(body))
 	if err != nil {
 		return "", err
 	}
@@ -59,9 +87,9 @@ func ekaPost(path, oid, partnerPtID string, reqBody, out any) error {
 	}
 	b, _ := json.Marshal(reqBody)
 	log.Printf("[m3] POST %s oid=%s partner=%s body=%s", path, oid, partnerPtID, b)
-	req, _ := http.NewRequest(http.MethodPost, base+path, bytes.NewReader(b))
+	req, _ := http.NewRequest(http.MethodPost, NdhmURL()+path, bytes.NewReader(b))
 	req.Header.Set("Content-Type", "application/json")
-	req.Header.Set("Authorization", "Bearer "+token)
+	SetAuth(req, token)
 	req.Header.Set("X-Pt-Id", oid)
 	req.Header.Set("X-Partner-Pt-Id", partnerPtID)
 	req.Header.Set("X-Hip-Id", os.Getenv("EKA_HIP_ID"))

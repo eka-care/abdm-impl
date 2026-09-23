@@ -12,7 +12,9 @@ import (
 
 // StoreAndLink saves the file to the documents table and triggers HIP-initiated linking.
 func StoreAndLink(oid, partnerPtID, abhaAddress, fileName, mimeType, hiType string, content []byte) (string, error) {
-	if hiType == "" {
+	if DummyFHIR() {
+		hiType = "DiagnosticReport" // must match the dummy bundle's Composition type
+	} else if hiType == "" {
 		hiType = "HealthDocumentRecord"
 	}
 	ccID := uuid.NewString()
@@ -45,6 +47,7 @@ func StoreAndLink(oid, partnerPtID, abhaAddress, fileName, mimeType, hiType stri
 	} else {
 		dumpFHIR(ccID, "link", fhir)
 		cc.Data = base64.StdEncoding.EncodeToString([]byte(fhir))
+		cc.HiTypes = []string{hiType}
 	}
 
 	hipID := os.Getenv("EKA_HIP_ID")

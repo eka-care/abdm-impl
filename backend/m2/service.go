@@ -9,14 +9,17 @@ import (
 	"os"
 	"sync"
 	"time"
+
+	"abdm/backend/m3"
 )
 
-var baseURL = func() string {
+// Read at call time: package vars initialise before main() loads ../.env.local.
+func baseURL() string {
 	if u := os.Getenv("EKA_BASE_URL"); u != "" {
 		return u
 	}
 	return "https://api.eka.care"
-}()
+}
 
 // Every ABDM call goes through this client: an unbounded default client leaks a
 // goroutine per hung gateway connection.
@@ -38,13 +41,14 @@ func getAccessToken() (string, error) {
 		"client_id":     os.Getenv("NEXT_PUBLIC_EKA_CLIENT_ID"),
 		"client_secret": os.Getenv("EKA_CLIENT_SECRET"),
 	})
-	resp, err := httpClient.Post(baseURL+"/connect-auth/v1/account/login", "application/json", bytes.NewReader(body))
+	resp, err := httpClient.Post(baseURL()+"/connect-auth/v1/account/login", "application/json", bytes.NewReader(body))
 	if err != nil {
 		return "", err
 	}
 	defer resp.Body.Close()
 	if resp.StatusCode != 200 {
-		return "", fmt.Errorf("eka login failed: %d", resp.StatusCode)
+		msg, _ := io.ReadAll(resp.Body)
+		return "", fmt.Errorf("eka login failed: %d %s", resp.StatusCode, msg)
 	}
 	var result struct {
 		AccessToken string `json:"access_token"`
@@ -65,6 +69,9 @@ type CareContext struct {
 	Display       string `json:"display"`
 	HiType        string `json:"hi_type"` // OPConsultation | DiagnosticReport | Prescription | ...
 	Data          string `json:"data,omitempty"`
+	// Eka only stores the inline bundle when hi_types is non-empty; without it the
+	// bundle is silently dropped and the PHR app later shows "data unavailable".
+	HiTypes []string `json:"hi_types,omitempty"`
 }
 
 type LinkRequest struct {
@@ -87,9 +94,9 @@ func RegisterPublicKey() error {
 		return err
 	}
 	body, _ := json.Marshal(map[string]string{"public_key": pubKey, "nonce": nonce})
-	req, _ := http.NewRequest(http.MethodPatch, baseURL+"/abdm/v1/hiu/keyset", bytes.NewReader(body))
+	req, _ := http.NewRequest(http.MethodPatch, m3.NdhmURL()+"/abdm/v1/hiu/keyset", bytes.NewReader(body))
 	req.Header.Set("Content-Type", "application/json")
-	req.Header.Set("Authorization", "Bearer "+token)
+	m3.SetAuth(req, token)
 	resp, err := httpClient.Do(req)
 	if err != nil {
 		return err
@@ -109,9 +116,9 @@ func LinkCareContexts(oid, partnerPtID, hipID string, req LinkRequest) error {
 		return err
 	}
 	body, _ := json.Marshal(req)
-	r, _ := http.NewRequest(http.MethodPost, baseURL+"/abdm/v1/care-contexts/link", bytes.NewReader(body))
+	r, _ := http.NewRequest(http.MethodPost, m3.NdhmURL()+"/abdm/v1/care-contexts/link", bytes.NewReader(body))
 	r.Header.Set("Content-Type", "application/json")
-	r.Header.Set("Authorization", "Bearer "+token)
+	m3.SetAuth(r, token)
 	r.Header.Set("X-Pt-Id", oid)
 	r.Header.Set("X-Partner-Pt-Id", partnerPtID)
 	r.Header.Set("X-Hip-Id", hipID)
@@ -144,9 +151,9 @@ func OnboardFacility(hipID, name, clinicID string) (map[string]any, error) {
 	}
 	body, _ := json.Marshal(payload)
 
-	req, _ := http.NewRequest(http.MethodPost, baseURL+"/abdm/v1/hip/onboard", bytes.NewReader(body))
+	req, _ := http.NewRequest(http.MethodPost, m3.NdhmURL()+"/abdm/v1/hip/onboard", bytes.NewReader(body))
 	req.Header.Set("Content-Type", "application/json")
-	req.Header.Set("Authorization", "Bearer "+token)
+	m3.SetAuth(req, token)
 
 	resp, err := httpClient.Do(req)
 	if err != nil {
@@ -154,7 +161,7 @@ func OnboardFacility(hipID, name, clinicID string) (map[string]any, error) {
 	}
 	defer resp.Body.Close()
 	raw, _ := io.ReadAll(resp.Body)
-	if resp.StatusCode != http.StatusOK {
+	if resp.StatusCode != http.StatusOK && resp.StatusCode != http.StatusCreated {
 		return nil, fmt.Errorf("onboard failed: %d — %s", resp.StatusCode, raw)
 	}
 	var out map[string]any

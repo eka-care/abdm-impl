@@ -1,6 +1,7 @@
 package m2
 
 import (
+	_ "embed"
 	"encoding/base64"
 	"encoding/json"
 	"fmt"
@@ -306,7 +307,7 @@ func identifierSystem() string {
 	if s := os.Getenv("PUBLIC_BASE_URL"); s != "" {
 		return s + "/abdm"
 	}
-	return baseURL + "/abdm"
+	return baseURL() + "/abdm"
 }
 
 type docRow struct {
@@ -316,11 +317,21 @@ type docRow struct {
 	content       []byte
 }
 
+//go:embed testdata/hardcoded_fhir.json
+var dummyFHIR string
+
+// DummyFHIR reports whether DUMMY_FHIR=true: every care context is then linked and
+// served with the fixed lab-report bundle above instead of the uploaded file.
+func DummyFHIR() bool { return os.Getenv("DUMMY_FHIR") == "true" }
+
 // FHIRForCareContext loads the record behind a care context and renders it as a
 // FHIR document bundle. This is care_abdm's transfer-loop dispatch: hi_type decides
 // which document profile is emitted, and a care context with no stored record is
 // skipped rather than substituted.
 func FHIRForCareContext(abhaAddress, ccID string) (string, error) {
+	if DummyFHIR() {
+		return dummyFHIR, nil
+	}
 	var (
 		hiType, display string
 		doc             = docRow{careContextID: ccID}

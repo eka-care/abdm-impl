@@ -2,13 +2,15 @@ package m2
 
 import (
 	"bytes"
-	"crypto/sha256"
+	"crypto/md5"
 	"encoding/json"
 	"fmt"
 	"io"
 	"log"
 	"net/http"
 	"time"
+
+	"abdm/backend/m3"
 
 	abdmecdh "github.com/eka-care/abdm-ecdh/go"
 )
@@ -73,7 +75,8 @@ func encryptAndPush(transactionID, oid, partnerPtID, hipID, abhaAddress string, 
 			return fmt.Errorf("encrypt care context %s: %w", ccID, err)
 		}
 
-		sum := sha256.Sum256([]byte(fhir))
+		// ABDM/Fidelius HIUs (the PHR app included) verify an md5 hex of the plaintext bundle.
+		sum := md5.Sum([]byte(fhir))
 		entries = append(entries, dataFetchEntry{
 			CareContextID: ccID,
 			Content:       encrypted.EncryptedData,
@@ -92,8 +95,8 @@ func encryptAndPush(transactionID, oid, partnerPtID, hipID, abhaAddress string, 
 			Nonce:     km.Nonce,
 			DHPublicKey: dhPublicKey{
 				KeyValue:   km.X509PublicKey,
-				Parameters: "",
-				Expiry:     time.Now().Add(24 * time.Hour).UTC().Format(time.RFC3339),
+				Parameters: "Curve25519/32byte random key",
+				Expiry:     time.Now().Add(24 * time.Hour).UTC().Format("2006-01-02T15:04:05.000Z"), // ABDM wants millisecond ISO-8601
 			},
 		},
 		Entries: entries,
@@ -105,9 +108,9 @@ func encryptAndPush(transactionID, oid, partnerPtID, hipID, abhaAddress string, 
 	}
 
 	body, _ := json.Marshal(payload)
-	req, _ := http.NewRequest(http.MethodPost, baseURL+"/abdm/v1/hip/care-context/data/on-fetch", bytes.NewReader(body))
+	req, _ := http.NewRequest(http.MethodPost, m3.NdhmURL()+"/abdm/v1/hip/care-context/data/on-fetch", bytes.NewReader(body))
 	req.Header.Set("Content-Type", "application/json")
-	req.Header.Set("Authorization", "Bearer "+token)
+	m3.SetAuth(req, token)
 	req.Header.Set("X-Pt-Id", oid)
 	req.Header.Set("X-Partner-Pt-Id", partnerPtID)
 	req.Header.Set("X-Hip-Id", hipID)
